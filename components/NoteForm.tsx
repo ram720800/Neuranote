@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/select";
 import { subjects } from "@/constants";
 import DropZone from "./DropZone";
+import { createNeuranote } from "@/lib/actions/neuranote.actions";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Neura name is required" }),
@@ -47,8 +49,15 @@ const NoteForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const neuranote = await createNeuranote(values);
+
+    if (neuranote) {
+      redirect(`/notes/${neuranote.id}`);
+    } else {
+      console.log("Failed to create Neuranote");
+      redirect("/");
+    }
   };
   return (
     <Form {...form}>

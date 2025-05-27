@@ -17,7 +17,7 @@ enum Subject {
   business = "business",
 }
 
-type Companion = Models.DocumentList<Models.Document> & {
+type Neuranote = Models.DocumentList<Models.Document> & {
   $id: string;
   name: string;
   subject: Subject;
@@ -26,7 +26,7 @@ type Companion = Models.DocumentList<Models.Document> & {
   bookmarked: boolean;
 };
 
-interface CreateCompanion {
+interface CreateNeuranote {
   name: string;
   subject: string;
   topic: string;
@@ -35,7 +35,7 @@ interface CreateCompanion {
   duration: number;
 }
 
-interface GetAllCompanions {
+interface GetAllNeuranotes {
   limit?: number;
   page?: number;
   subject?: string | string[];
@@ -71,8 +71,8 @@ interface SavedMessage {
   content: string;
 }
 
-interface CompanionComponentProps {
-  companionId: string;
+interface NeuranoteComponentProps {
+  neuranoteId: string;
   subject: string;
   topic: string;
   name: string;
