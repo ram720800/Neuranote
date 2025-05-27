@@ -1,0 +1,202 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { subjects } from "@/constants";
+import DropZone from "./DropZone";
+
+const formSchema = z.object({
+  name: z.string().min(1, { message: "Neura name is required" }),
+  subject: z.string().min(1, { message: "Subject name is required" }),
+  topic: z.string().min(1, { message: "Topic name is required" }),
+  voice: z.string().min(1, { message: "Voice type is required" }),
+  style: z.string().min(1, { message: "Speaking style is required" }),
+  duration: z.coerce.number().min(1, { message: "Duration is required" }),
+});
+
+const NoteForm = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      subject: "",
+      topic: "",
+      voice: "",
+      style: "",
+      duration: 15,
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+  };
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Neuranote name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter the Neuranote name"
+                      {...field}
+                      className="input"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="subject"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Neuranote Subject name</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="capitalize input">
+                        <SelectValue placeholder="Select the Neuranote subject name" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {subjects.map((subject) => (
+                          <SelectItem value={subject} key={subject}>
+                            {subject}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="topic"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>What should this Neuranote teach you?</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter the Neuranote Topic"
+                      {...field}
+                      className="input"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="voice"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Neuranote Voice type</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="input">
+                        <SelectValue placeholder="pick your voice assistance type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="male">Male</SelectItem>
+                        <SelectItem value="Female">Female</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="style"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Neuranote style</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="input">
+                        <SelectValue placeholder="Select the Neuranote style" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="formal">Formal</SelectItem>
+                        <SelectItem value="casual">Casual</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="duration"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Session duration</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="15"
+                      {...field}
+                      className="input"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex flex-col justify-center items-center border-2 border-dashed p-6 rounded-xl cursor-pointer hover:bg-muted/50 h-full">
+            <DropZone onFiles={(files) => console.log(files)} />
+          </div>
+        </div>
+
+        <Button type="submit" className="w-full cursor-pointer">
+          Build your Neuranote
+        </Button>
+      </form>
+    </Form>
+  );
+};
+
+export default NoteForm;
