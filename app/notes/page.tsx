@@ -1,40 +1,32 @@
-import NoteCard from "@/components/NoteCard"
+import NoteCard from "@/components/NoteCard";
+import { getAllNeuranotes } from "@/lib/actions/neuranote.actions";
+import { getSubjectBadges, getSubjectColors } from "@/lib/utils";
 
-const page = () => {
+const neuranoteLibrary = async ({ searchParams }: SearchParams) => {
+  const filters = await searchParams;
+  const subject = filters.subject ? filters.subject : "";
+  const topic = filters.topic ? filters.topic : "";
+
+  const neuranotes = await getAllNeuranotes({ subject, topic });
+
   return (
     <main>
-      <h1 className="text-2xl">Popular neuranotes</h1>
-      <section className="home-section">
-        <NoteCard
-          id="123"
-          name="Next.js"
-          topic="SEO and SSR in Nex.js"
-          subject="coding"
-          duration={15}
-          color="bg-gradient-to-b from-white to-[#8CC385]"
-          badge="#8CC385"
-        />
-        <NoteCard
-          id="124"
-          name="Neural Networks"
-          topic="Mind behind neural network"
-          subject="ML"
-          duration={20}
-          color="bg-gradient-to-b from-white to-[#C3A885]"
-          badge="#C3A885"
-        />
-        <NoteCard
-          id="124"
-          name="web 3"
-          topic="How blockchain works"
-          subject="Crypto"
-          duration={20}
-          color="bg-gradient-to-b from-white to-[#B396B5]"
-          badge="#B396B5"
-        />
+      <section className="flex justify-between gap-4 max-sm:flex-col">
+        <h1>Your Neuranotes Library</h1>
+        <div>Filter</div>
+      </section>
+      <section className="note-grid">
+        {neuranotes.map((note) => (
+          <NoteCard
+            key={note.id}
+            {...note}
+            color={getSubjectColors(note.subject)}
+            badge={getSubjectBadges(note.subject)}
+          />
+        ))}
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default page
+export default neuranoteLibrary;

@@ -1,7 +1,5 @@
-const neuranoteSession = () => {
-  return (
-    <div>neuranoteSession</div>
-  )
-}
+const neuranoteSession = async () => {
+  return <div>session</div>;
+};
 
-export default neuranoteSession
+export default neuranoteSession;

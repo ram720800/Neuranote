@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Bookmark from "./icons/Bookmark";
 
 interface NoteCardProps {
   id: string;
@@ -8,7 +9,7 @@ interface NoteCardProps {
   subject: string;
   duration: number;
   color: string;
-  badge:string
+  badge: string;
 }
 
 const NoteCard = ({
@@ -23,14 +24,11 @@ const NoteCard = ({
   return (
     <article className={`note-card ${color}`}>
       <div className="flex justify-between items-center">
-        <div className="subject-badge" style={{backgroundColor:badge}}>{subject}</div>
-        <button className="note-bookmark" style={{backgroundColor:badge}}>
-          <Image
-            src="/icons/bookmark.svg"
-            alt="bookmark"
-            width={12.5}
-            height={15}
-          />
+        <div className="subject-badge" style={{ backgroundColor: badge }}>
+          {subject}
+        </div>
+        <button className="note-bookmark" style={{ backgroundColor: badge }}>
+          <Bookmark />
         </button>
       </div>
       <h2 className="text-2xl font-bold">{name}</h2>
@@ -44,7 +42,7 @@ const NoteCard = ({
         />
         <p className="text-sm">{duration} mins</p>
       </div>
-      <Link href={`/notes${id}`} className="w-full">
+      <Link href={`/notes/${id}`} className="w-full">
         <button className="btn-primary justify-center w-full">
           launch neuranote
         </button>
