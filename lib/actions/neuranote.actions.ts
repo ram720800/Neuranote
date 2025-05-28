@@ -29,19 +29,20 @@ export const getAllNeuranotes = async ({
   let query = supabase.from("neuranotes").select();
 
   if (subject && topic) {
-    query =  query.ilike( "subject",  `%${subject}%`)
-    .or(`topic.ilike.%${topic}%,name.ilkie.%${topic}%`)
-  }else if(subject){
-    query = query.ilike("subject",  `%${subject}%`);
+    query = query
+      .ilike("subject", `%${subject}%`)
+      .or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
+  } else if (subject) {
+    query = query.ilike("subject", `%${subject}%`);
   } else if (topic) {
-    query=query.or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
+    query = query.or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
   }
 
   query = query.range((page - 1) * limit, page * limit - 1);
 
   const { data: neuranotes, error } = await query;
 
-  if (error) throw new Error(error.message)
-  
+  if (error) throw new Error(error.message);
+
   return neuranotes;
 };

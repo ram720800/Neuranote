@@ -1,4 +1,5 @@
 import NoteCard from "@/components/NoteCard";
+import SearchInput from "@/components/SearchInput";
 import { getAllNeuranotes } from "@/lib/actions/neuranote.actions";
 import { getSubjectBadges, getSubjectColors } from "@/lib/utils";
 
@@ -11,9 +12,11 @@ const neuranoteLibrary = async ({ searchParams }: SearchParams) => {
 
   return (
     <main>
-      <section className="flex justify-between gap-4 max-sm:flex-col">
+      <section className="flex justify-between items-center gap-4 max-sm:flex-col">
         <h1>Your Neuranotes Library</h1>
-        <div>Filter</div>
+        <div>
+          <SearchInput />
+        </div>
       </section>
       <section className="note-grid">
         {neuranotes.map((note) => (
