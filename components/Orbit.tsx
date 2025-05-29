@@ -15,6 +15,7 @@ const Orbit = () => {
         <div className="w-32 h-32 border border-border rounded-full absolute" />
         <div className="w-48 h-48 border border-border rounded-full absolute" />
         <div className="w-64 h-64 border border-border rounded-full absolute" />
+        <div className="transcript-fades"/>
       </div>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-orbitone origin-center">

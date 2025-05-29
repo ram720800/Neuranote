@@ -46,3 +46,17 @@ export const getAllNeuranotes = async ({
 
   return neuranotes;
 };
+
+export const getNeuranote = async (id: string) => {
+  const supabase = createSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("neuranotes")
+    .select()
+    .eq("id", id);
+  if (error) {
+    return console.log(error?.message);
+  }
+
+  return data[0];
+};

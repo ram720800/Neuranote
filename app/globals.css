@@ -10,6 +10,7 @@
 
   --cta: #2c2c2c;
   --cta-gold: #fccc41;
+  --mic: oklch(0.7686 0.1647 70.08);
   --radius: 0.625rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -49,6 +50,7 @@
   --color-primary: var(--primary);
   --color-cta: var(--cta);
   --color-cta-gold: var(--cta-gold);
+  --color-mic: var(--mic);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-bricolage: "Bricolage Grotesque", sans-serif;
@@ -92,6 +94,7 @@ body {
 
 .dark {
   --background: oklch(0.145 0 0);
+  --mic: oklch(0.7686 0.1647 70.08);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -170,7 +173,7 @@ body {
   .btn-primary {
     @apply bg-primary text-white rounded-xl cursor-pointer px-4 py-2 flex items-center gap-2;
   }
-  .radial-gradient{
+  .radial-gradient {
     @apply flex justify-center items-center bg-radial-[at_25%_25%] from-white to-zinc-900 to-75% rounded-full size-20;
   }
   .navbar {
@@ -187,14 +190,17 @@ body {
   }
 
   .note-section {
-    @apply border-2 border-orange-500 w-2/3 max-sm:w-full flex flex-col gap-4 justify-center items-center rounded-lg;
+    @apply max-sm:w-full flex flex-col gap-4 justify-center items-center py-10 px-20 rounded-4xl border-4 border-white shadow-[0_5px_10px_rgba(0,0,0,0.08),0_15px_25px_-5px_rgba(25,28,33,0.2)];
+  }
+  .message-section {
+    @apply max-sm:w-full flex flex-col gap-4 justify-center items-center py-10 px-10 rounded-4xl border-4 border-white shadow-[0_5px_10px_rgba(0,0,0,0.08),0_15px_25px_-5px_rgba(25,28,33,0.2)];
   }
 
   .note-avatar {
-    @apply size-[300px] flex items-center justify-center rounded-lg max-sm:size-[100px] mt-4;
+    @apply size-[200px] flex items-center justify-center rounded-full max-sm:size-[150px] mt-4;
   }
   .note-lottie {
-    @apply size-[300px] max-sm:size-[100px];
+    @apply size-[200px] max-sm:size-[100px];
   }
 
   .user-section {
@@ -212,10 +218,16 @@ body {
     @apply relative flex flex-col gap-4 w-full items-center pt-10 flex-grow overflow-hidden;
   }
   .transcript-message {
-    @apply overflow-y-auto w-full flex flex-col gap-4 max-sm:gap-2 pr-2 h-full text-2xl;
+    @apply overflow-y-auto w-full flex flex-col-reverse gap-4 max-sm:gap-2 pr-2 h-full text-2xl;
   }
   .transcript-fade {
-    @apply pointer-events-none absolute bottom-0 left-0 right-0 h-40 max-sm:h-20 bg-gradient-to-t from-background via-background/90 to-transparent z-10;
+    @apply pointer-events-none absolute top-0 left-0 right-0 h-40 max-sm:h-20 bg-gradient-to-b from-background via-background/90 to-transparent z-10 blur-md;
+  }
+  .transcript-fades {
+    @apply pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background via-background/90 to-transparent z-10;
+  }
+  .transcript-fadestop {
+    @apply pointer-events-none absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-background via-background/90 to-transparent z-10 blur-md;
   }
 }
 
@@ -228,7 +240,3 @@ body {
     scrollbar-width: none;
   }
 }
-
-
-
- 
