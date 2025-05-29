@@ -4,9 +4,9 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const navItems = [
+  { label: "Launch Neuranote", href: "/launch" },
+  { label: "My Neuranotes", href: "/notes" },
   { label: "Dashboard", href: "/dashboard" },
-  { label: "Notes", href: "/notes" },
-  { label: "My Neuranotes", href: "/my-neuranotes" },
 ];
 
 const NavItems = () => {

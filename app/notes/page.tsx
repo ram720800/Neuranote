@@ -8,7 +8,23 @@ const neuranoteLibrary = async ({ searchParams }: SearchParams) => {
   const subject = filters.subject ? filters.subject : "";
   const topic = filters.topic ? filters.topic : "";
 
-  const neuranotes = await getAllNeuranotes({ subject, topic });
+  let neuranotes = [];
+
+  try {
+    neuranotes = await getAllNeuranotes({ subject, topic });
+  } catch (error) {
+    console.log(`Error loading notes:${error}`);
+    return (
+      <main className="p-4 text-center">
+        <h1 className="text-xl font-semibold text-red-600">
+          Failed to load notes
+        </h1>
+        <p className="mt-2 text-muted-foreground">
+          Please check your internet connection and try again.
+        </p>
+      </main>
+    );
+  }
 
   return (
     <main>

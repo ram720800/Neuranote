@@ -17,7 +17,7 @@ export const subjectsColors = {
 };
 export const subjectsBadges = {
   science: "#C3A885",
-  maths: "B396B5",
+  maths: "#B396B5",
   language: "#D19293",
   coding: "#8CC385",
   history: "#D1D192",

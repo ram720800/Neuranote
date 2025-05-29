@@ -104,7 +104,19 @@ const NeuraComponent = ({
 
   return (
     <section className="flex items-center justify-start gap-4 max-xl:flex-col transition-all duration-300">
-      <section className="note-section">
+      <section className="relative group note-section">
+        <div className="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+          <div
+        className={cn(
+          "absolute inset-0",
+          "[background-size:5px_5px]",
+          "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
+          "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
+        )}
+      />
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(circle_at_bottom_right,transparent_60%,black_80%)] dark:bg-black"></div>
+        </div>
+
         <div className="note-avatar bg-gradient-to-br from-white to-[#000000] animate-pulse border shadow-2xl">
           <div
             className={cn(
@@ -132,37 +144,52 @@ const NeuraComponent = ({
           </div>
         </div>
         <div className="flex items-center justify-center gap-34 mt-4">
-          <button
-            className="flex items-center justify-center p-2 w-14 h-14 rounded-full bg-primary cursor-pointer shadow-2xl"
-            onClick={toggleMicrophone}
-            disabled={callStatus !== CallStatus.ACTIVE}
-          >
-            {isMuted ? <MicOff className="text-mic"/> : <MicOn className="text-mic" />}
-          </button>
-          <button
-            className={cn(
-              "flex items-center justify-center p-2 w-14 h-14 rounded-full cursor-pointer shadow-2xl",
-              callStatus === CallStatus.ACTIVE ? "bg-red-500 " : "bg-primary",
-              callStatus === CallStatus.CONNECTING && "animate-pulse"
-            )}
-            onClick={
-              callStatus === CallStatus.ACTIVE
-                ? handelDisconnect
-                : handelConnect
-            }
-          >
-            {callStatus === CallStatus.ACTIVE ? (
-              <Call />
-            ) : callStatus === CallStatus.CONNECTING ? (
-              <div className="flex items-center justify-center space-x-1">
-                <span className="w-1 h-1 bg-background rounded-full animate-ping"></span>
-                <span className="w-1 h-1 bg-background rounded-full animate-ping delay-150"></span>
-                <span className="w-1 h-1 bg-background rounded-full animate-ping delay-300"></span>
-              </div>
-            ) : (
-              <Wave className="text-background"/>
-            )}
-          </button>
+          <div className="relative">
+            <button
+              className="flex items-center justify-center p-2 w-14 h-14 rounded-full bg-primary cursor-pointer shadow-2xl z-20"
+              onClick={toggleMicrophone}
+              disabled={callStatus !== CallStatus.ACTIVE}
+            >
+              {isMuted ? (
+                <MicOff className="text-mic" />
+              ) : (
+                <MicOn className="text-mic" />
+              )}
+            </button>
+            <p className="absolute z-20 top-16 left-1 font-bold">
+              {isMuted ? "OffMic" : "OnMic"}
+            </p>
+          </div>
+
+          <div className="relative">
+            <button
+              className={cn(
+                "flex items-center justify-center p-2 w-14 h-14 rounded-full cursor-pointer shadow-2xl z-20",
+                callStatus === CallStatus.ACTIVE ? "bg-red-500 " : "bg-primary",
+                callStatus === CallStatus.CONNECTING && "animate-pulse"
+              )}
+              onClick={
+                callStatus === CallStatus.ACTIVE
+                  ? handelDisconnect
+                  : handelConnect
+              }
+            >
+              {callStatus === CallStatus.ACTIVE ? (
+                <Call />
+              ) : callStatus === CallStatus.CONNECTING ? (
+                <div className="flex items-center justify-center space-x-1">
+                  <span className="w-1 h-1 bg-background rounded-full animate-ping"></span>
+                  <span className="w-1 h-1 bg-background rounded-full animate-ping delay-150"></span>
+                  <span className="w-1 h-1 bg-background rounded-full animate-ping delay-300"></span>
+                </div>
+              ) : (
+                <Wave className="text-background" />
+              )}
+            </button>
+            <p className="absolute z-20 top-16 left-3 font-bold">
+              {callStatus === CallStatus.ACTIVE ? "End" : "Start"}
+            </p>
+          </div>
         </div>
       </section>
 
@@ -176,12 +203,16 @@ const NeuraComponent = ({
                   key={index}
                   className="text-[18px] max-sm:text-sm border-2 border-white bg-[#f4f1f8] shadow-md rounded-md p-1"
                 >
-                  <span className="font-semibold">Neura:</span> {message.content}
+                  <span className="font-semibold">Neura:</span>{" "}
+                  {message.content}
                 </p>
               );
             } else {
               return (
-                <p key={index} className="text-[18px] max-sm:text-sm border-2 border-white bg-[#f4f1f8] shadow-md rounded-md p-1">
+                <p
+                  key={index}
+                  className="text-[18px] max-sm:text-sm border-2 border-white bg-[#f4f1f8] shadow-md rounded-md p-1"
+                >
                   <span className="font-semibold">You:</span> {message.content}
                 </p>
               );

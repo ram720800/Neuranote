@@ -1,13 +1,7 @@
-import Cta from "@/components/Cta";
-
-const Dashboard = () => {
+const profilePage = () => {
   return (
-    <main>
-      <section className="home-section">
-        <Cta/>
-      </section>
-    </main>
-  );
-};
+    <div className='m-10 text-center text-2xl'>profilePage</div>
+  )
+}
 
-export default Dashboard;
+export default profilePage

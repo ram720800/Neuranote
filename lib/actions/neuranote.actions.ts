@@ -26,25 +26,30 @@ export const getAllNeuranotes = async ({
 }: GetAllNeuranotes) => {
   const supabase = createSupabaseClient();
 
-  let query = supabase.from("neuranotes").select();
+  try {
+    let query = supabase.from("neuranotes").select();
 
-  if (subject && topic) {
-    query = query
-      .ilike("subject", `%${subject}%`)
-      .or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
-  } else if (subject) {
-    query = query.ilike("subject", `%${subject}%`);
-  } else if (topic) {
-    query = query.or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
+    if (subject && topic) {
+      query = query
+        .ilike("subject", `%${subject}%`)
+        .or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
+    } else if (subject) {
+      query = query.ilike("subject", `%${subject}%`);
+    } else if (topic) {
+      query = query.or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
+    }
+
+    query = query.range((page - 1) * limit, page * limit - 1);
+
+    const { data: neuranotes, error } = await query;
+
+    if (error) throw new Error(error.message);
+
+    return neuranotes;
+  } catch (err) {
+    console.error("Failed to fetch neuranotes:", err);
+    throw new Error("Failed to load notes. Please check your connection.");
   }
-
-  query = query.range((page - 1) * limit, page * limit - 1);
-
-  const { data: neuranotes, error } = await query;
-
-  if (error) throw new Error(error.message);
-
-  return neuranotes;
 };
 
 export const getNeuranote = async (id: string) => {
