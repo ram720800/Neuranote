@@ -39,7 +39,7 @@ const SubjectFilter = () => {
   return (
     <div>
       <Select onValueChange={setSubject} value={subject}>
-        <SelectTrigger>
+        <SelectTrigger hideChevron>
           <Image src="/icons/funnel.svg" alt="filter" width={24} height={24} />
         </SelectTrigger>
         <SelectContent>

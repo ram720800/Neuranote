@@ -69,10 +69,10 @@ const NoteForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Neuranote name</FormLabel>
+                  <FormLabel>Neuranote Topic name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter the Neuranote name"
+                      placeholder="Enter the Neuranote topic name"
                       {...field}
                       className="input"
                     />
@@ -117,7 +117,7 @@ const NoteForm = () => {
                   <FormLabel>What should this Neuranote teach you?</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter the Neuranote Topic"
+                      placeholder="Describe what this Neuranote should teach you"
                       {...field}
                       className="input"
                     />

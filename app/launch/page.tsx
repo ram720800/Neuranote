@@ -4,7 +4,7 @@ const Dashboard = () => {
   return (
     <main>
       <section className="home-section">
-        <Cta/>
+        <Cta />
       </section>
     </main>
   );

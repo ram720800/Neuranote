@@ -65,3 +65,57 @@ export const getNeuranote = async (id: string) => {
 
   return data[0];
 };
+
+export const addToSessionHistory = async (neuranoteId: string) => {
+  const { userId } = await auth();
+  const supabase = createSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("session_history")
+    .insert({ user_id: userId, note_id: neuranoteId });
+
+  if (error) throw new Error(error.message);
+
+  return data;
+};
+
+export const getSessions = async (limit = 10) => {
+  const supabase = createSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("session_history")
+    .select(`notes:note_id(*)`)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) throw new Error(error.message);
+
+  return data.map(({ notes }) => notes);
+};
+
+export const getUserSessions = async (userId: string, limit = 10) => {
+  const supabase = createSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("session_history")
+    .select(`notes:note_id(*)`)
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) throw new Error(error.message);
+
+  return data.map(({ notes }) => notes);
+};
+export const getUserNeuranotes = async (userId: string) => {
+  const supabase = createSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("neuranotes")
+    .select()
+    .eq("author", userId);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+};

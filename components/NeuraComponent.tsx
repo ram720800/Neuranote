@@ -1,6 +1,7 @@
 "use client";
 
 import { cn, configureAssistant } from "@/lib/utils";
+import { addToSessionHistory } from "@/lib/actions/neuranote.actions";
 import { vapi } from "@/lib/vapi.sdk";
 import { useEffect, useRef, useState } from "react";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
@@ -22,6 +23,7 @@ const NeuraComponent = ({
   topic,
   voice,
   style,
+  neuranoteId,
 }: NeuranoteComponentProps) => {
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -42,7 +44,10 @@ const NeuraComponent = ({
   useEffect(() => {
     const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
 
-    const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
+    const onCallEnd = () => {
+      setCallStatus(CallStatus.FINISHED);
+      addToSessionHistory(neuranoteId);
+    };
 
     const onMessage = (message: Message) => {
       if (message.type === "transcript" && message.transcriptType === "final") {
@@ -107,13 +112,13 @@ const NeuraComponent = ({
       <section className="relative group note-section">
         <div className="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-200 group-hover:opacity-100">
           <div
-        className={cn(
-          "absolute inset-0",
-          "[background-size:5px_5px]",
-          "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
-          "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
-        )}
-      />
+            className={cn(
+              "absolute inset-0 rounded-4xl",
+              "[background-size:5px_5px]",
+              "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
+              "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]"
+            )}
+          />
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(circle_at_bottom_right,transparent_60%,black_80%)] dark:bg-black"></div>
         </div>
 
@@ -157,7 +162,7 @@ const NeuraComponent = ({
               )}
             </button>
             <p className="absolute z-20 top-16 left-1 font-bold">
-              {isMuted ? "OffMic" : "OnMic"}
+              {isMuted ? "OnMic" : "OffMic"}
             </p>
           </div>
 

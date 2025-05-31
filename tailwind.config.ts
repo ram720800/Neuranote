@@ -21,6 +21,10 @@ const config: Config = {
             transform: "rotate(360deg) translateX(6rem) rotate(-360deg)",
           },
         },
+        scroll: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(calc(-50% - 20px))" },
+        },
       },
       animation: {
         orbitone: "orbitone 7s linear infinite",
@@ -28,6 +32,7 @@ const config: Config = {
         orbittwo: "orbittwo 10s linear infinite",
         "orbittwo-delay1": "orbittwo 10s linear infinite 3.33s",
         "orbittwo-delay2": "orbittwo 10s linear infinite 6.66s",
+        scroll: "scroll 12s linear infinite",
       },
     },
   },
@@ -35,3 +40,6 @@ const config: Config = {
 };
 
 export default config;
+
+
+

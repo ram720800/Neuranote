@@ -1,7 +1,14 @@
 import { SignIn } from "@clerk/nextjs";
+import Carousal from "@/components/Carousal";
 
-export default function Page() {
-  return <main className="flex items-center justify-center">
-    <SignIn />
-  </main>;
-}
+const Page = () => {
+  return (
+    <main>
+      <section className="home-section">
+        <SignIn />
+        <Carousal />
+      </section>
+    </main>
+  );
+};
+export default Page;
