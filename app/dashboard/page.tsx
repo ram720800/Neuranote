@@ -10,7 +10,7 @@ const profilePage = async () => {
     } catch (error) {
       console.log(`Error loading notes:${error}`);
       return (
-        <main className="p-4 text-center">
+        <main className="p-4 text-center mt-10">
           <h1 className="text-xl font-semibold text-red-600">
             Failed to load sessions
           </h1>
@@ -24,7 +24,7 @@ const profilePage = async () => {
 
   return (
     <main>
-      <section className="home-section">
+      <section className="home-section mt-10">
         <NeuranoteList
           title="Your Recent sessions"
           neuranotes={recentSession}

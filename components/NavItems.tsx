@@ -1,30 +1,49 @@
 "use client";
+
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 const navItems = [
-  { label: "Launch Neuranote", href: "/launch" },
-  { label: "My Neuranotes", href: "/notes" },
-  { label: "Dashboard", href: "/dashboard" },
+  { id: "launch", label: "Launch Neuranote", href: "/launch" },
+  { id: "notes", label: "My Neuranotes", href: "/notes" },
+  { id: "dashboard", label: "Dashboard", href: "/dashboard" },
 ];
 
-const NavItems = () => {
-  const pathname = usePathname();
+interface NavItemsProps {
+  isMobile?: boolean;
+}
+
+const NavItems = ({ isMobile = false }: NavItemsProps) => {
+  const [activeNav, setActiveNav] = useState(navItems[0].id);
 
   return (
-    <nav className="flex items-center gap-8 max-sm:hidden font-semibold">
-      {navItems.map(({ label, href }) => (
+    <nav
+      className={cn(
+        "font-semibold",
+        isMobile ? "flex flex-col gap-2 px-6" : "flex gap-8 "
+      )}
+    >
+      {navItems.map((nav) => (
         <Link
-          href={href}
-          key={label}
+          href={nav.href}
+          key={nav.id}
+          onClick={() => setActiveNav(nav.id)}
           className={cn(
-            "rounded px-3 py-1 transition-colors duration-200",
-              pathname === href ? "text-primary bg-primary/10" : "text-muted-foreground"
-            ,"hover:bg-primary/10 hover:text-primary"
+            "relative rounded-4xl px-3 py-1 text-primary",
+            activeNav === nav.id ? "" : "hover:text-muted-foreground",
+            isMobile && "tex-left w-full h-full"
           )}
         >
-          {label}
+          {activeNav === nav.id && (
+            <motion.div
+              layoutId="active-nav"
+              className="absolute inset-0 bg-border"
+              style={{borderRadius:32}}
+            />
+          )}
+          <span className="relative z-10">{nav.label}</span>
         </Link>
       ))}
     </nav>
