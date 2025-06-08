@@ -1,9 +1,8 @@
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Orbit from "@/components/Orbit";
 const Cta = () => {
   return (
-    <section className="relative note-card">
+    <section className="relative note-card z-20">
       <div className="absolute inset-0 w-full h-full">
         <div
           className={cn(
@@ -24,12 +23,6 @@ const Cta = () => {
         <div className="transcript-fadestop" />
         <Orbit />
       </div>
-
-      {/* <button className="w-full btn-primary justify-center">
-        <Link href="/notes/new-note">
-          <p>Create Neuranote</p>
-        </Link>
-      </button> */}
     </section>
   );
 };

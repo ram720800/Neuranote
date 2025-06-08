@@ -107,6 +107,7 @@ export const getUserSessions = async (userId: string, limit = 10) => {
 
   return data.map(({ notes }) => notes);
 };
+
 export const getUserNeuranotes = async (userId: string) => {
   const supabase = createSupabaseClient();
 
@@ -118,4 +119,33 @@ export const getUserNeuranotes = async (userId: string) => {
   if (error) throw new Error(error.message);
 
   return data;
+};
+
+export const newNotePermission = async () => {
+  const { userId, has } = await auth();
+  const supabase = createSupabaseClient();
+
+  let limit = 0;
+  if (has({ plan: "pro" })) {
+    return true;
+  } else if (has({ feature: "3_active_neuranotes" })) {
+    limit = 3;
+  } else if (has({ feature: "15_active_neuranotes_mo" })) {
+    limit = 15;
+  }
+
+  const { data, error } = await supabase
+    .from("neuranotes")
+    .select("id", { count: "exact" })
+    .eq("author", userId);
+
+  if (error) throw new Error(error.message);
+
+  const neuranoteCount = data?.length;
+
+  if (neuranoteCount >= limit) {
+    return false;
+  } else {
+    return true;
+  }
 };

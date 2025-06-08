@@ -15,7 +15,7 @@ const neuranoteLibrary = async ({ searchParams }: SearchParams) => {
   } catch (error) {
     console.log(`Error loading notes:${error}`);
     return (
-      <main className="p-4 text-center">
+      <main className="p-4 text-center mt-10">
         <h1 className="text-xl font-semibold text-red-600">
           Failed to load notes
         </h1>
@@ -28,7 +28,7 @@ const neuranoteLibrary = async ({ searchParams }: SearchParams) => {
 
   return (
     <main>
-      <section className="flex justify-between items-center gap-4 max-sm:flex-col">
+      <section className="flex justify-between items-center gap-4 max-sm:flex-col mt-10">
         <h1>Your Neuranotes Library</h1>
         <div>
           <SearchInput />

@@ -23,9 +23,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { subjects } from "@/constants";
-import DropZone from "./DropZone";
 import { createNeuranote } from "@/lib/actions/neuranote.actions";
 import { redirect } from "next/navigation";
+import { PdfUploadDemo } from "@/components/PdfUploadDemo";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Neura name is required" }),
@@ -62,7 +62,7 @@ const NoteForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-4xl border-4 border-white shadow-[0_5px_10px_rgba(0,0,0,0.08),0_15px_25px_-5px_rgba(25,28,33,0.2)] p-4 w-full mt-4">
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -195,8 +195,8 @@ const NoteForm = () => {
               )}
             />
           </div>
-          <div className="flex flex-col justify-center items-center border-2 border-dashed p-6 rounded-xl cursor-pointer hover:bg-muted/50 h-full">
-            <DropZone onFiles={(files) => console.log(files)} />
+          <div className="flex flex-col justify-center items-center">
+            <PdfUploadDemo />
           </div>
         </div>
 
