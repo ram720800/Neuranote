@@ -18,7 +18,7 @@ const neuranoteSession = async ({ params }: neuranoteSessionProps) => {
 
   return (
     <main>
-      <div className="flex items-center justify-center -mt-4">
+      <div className="flex items-center justify-center mt-10">
         <h1 className="flex items-center justify-center font-bold text-xl sm:text-2xl">
           {neuranote.name}
           <span className="mx-2 sm:mx-3 px-3 py-2 sm:px-4 sm:py-3 rounded-xl border-2 border-white bg-[#f4f1f8] shadow-md hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2 sm:gap-3">

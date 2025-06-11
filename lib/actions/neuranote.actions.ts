@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { createSupabaseClient } from "@/lib/supabase";
+import { createSupabaseClient } from "@/lib/supabase/server";
 
 export const createNeuranote = async (formData: CreateNeuranote) => {
   const { userId: author } = await auth();
