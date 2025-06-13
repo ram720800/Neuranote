@@ -33,6 +33,7 @@ interface CreateNeuranote {
   voice: string;
   style: string;
   duration: number;
+  extracted_text: string;
 }
 
 interface GetAllNeuranotes {

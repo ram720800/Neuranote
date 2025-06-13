@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, configureAssistant } from "@/lib/utils";
+import { cn, configureAssistant, trimToTokenLimit } from "@/lib/utils";
 import { addToSessionHistory } from "@/lib/actions/neuranote.actions";
 import { vapi } from "@/lib/vapi.sdk";
 import { useEffect, useRef, useState } from "react";
@@ -10,6 +10,7 @@ import Call from "./icons/Call";
 import Wave from "./icons/Wave";
 import MicOn from "./icons/MicOn";
 import MicOff from "./icons/MicOff";
+import { createClient } from "@/lib/supabase/client";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -30,6 +31,7 @@ const NeuraComponent = ({
   const [isMuted, setIsMuted] = useState(false);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const [extractedText, setExtractedText] = useState("");
 
   useEffect(() => {
     if (lottieRef) {
@@ -79,6 +81,31 @@ const NeuraComponent = ({
     };
   }, []);
 
+  useEffect(() => {
+    const supabase = createClient();
+    console.log("Neuranote ID:", neuranoteId);
+    if (!neuranoteId) return;
+
+    supabase
+      .from("neuranotes")
+      .select("extracted_text")
+      .eq("id", neuranoteId)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Fetch error:", {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code,
+          });
+        } else if (data?.length === 0) {
+          console.warn("No data found for note ID:", neuranoteId);
+        } else {
+          setExtractedText(data?.[0]?.extracted_text ?? "");
+        }
+      });
+  }, [neuranoteId]);
+
   const toggleMicrophone = () => {
     const isMuted = vapi.isMuted();
     vapi.setMuted(!isMuted);
@@ -87,18 +114,21 @@ const NeuraComponent = ({
 
   const handelConnect = async () => {
     setCallStatus(CallStatus.CONNECTING);
+    const safeText = trimToTokenLimit(extractedText, 8000);
 
     const assisatantOverrides = {
       variableValues: {
         subject,
         topic,
         style,
+        content: safeText,
       },
-      clientMessages: ["transcript"],
-      serverMessages: [],
     };
-    //@ts-expect-error
-    vapi.start(configureAssistant(voice, style), assisatantOverrides);
+
+    vapi.start(
+      configureAssistant(voice, style, topic, subject, safeText),
+      assisatantOverrides
+    );
   };
 
   const handelDisconnect = async () => {

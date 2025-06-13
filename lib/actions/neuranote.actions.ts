@@ -133,19 +133,25 @@ export const newNotePermission = async () => {
   } else if (has({ feature: "15_active_neuranotes_mo" })) {
     limit = 15;
   }
+  try {
+    const { data, error } = await supabase
+      .from("neuranotes")
+      .select("id", { count: "exact" })
+      .eq("author", userId);
 
-  const { data, error } = await supabase
-    .from("neuranotes")
-    .select("id", { count: "exact" })
-    .eq("author", userId);
+    if (error) throw new Error(error.message);
 
-  if (error) throw new Error(error.message);
+    const neuranoteCount = data?.length;
 
-  const neuranoteCount = data?.length;
-
-  if (neuranoteCount >= limit) {
-    return false;
-  } else {
-    return true;
+    if (neuranoteCount >= limit) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (err) {
+    console.error("Supabase error:", err);
+    return {
+      error: "Supabase is currently unavailable. Please try again later.",
+    };
   }
 };

@@ -39,7 +39,7 @@ const NavItems = ({ isMobile = false }: NavItemsProps) => {
           {activeNav === nav.id && (
             <motion.div
               layoutId="active-nav"
-              className="absolute inset-0 bg-border"
+              className="absolute inset-0 bg-neutral-300/20 hover:bg-neutral-300/30 backdrop-blur-[1px] border border-neutral-400/20"
               style={{borderRadius:32}}
             />
           )}
