@@ -146,6 +146,21 @@ body {
   h1 {
     @apply text-3xl font-bold;
   }
+  @keyframes gradient-x {
+    0%,
+    100% {
+      background-size: 200% 100%;
+      background-position: left center;
+    }
+    50% {
+      background-size: 200% 100%;
+      background-position: right center;
+    }
+  }
+
+  .animate-gradient-x {
+    animation: gradient-x 3s ease infinite;
+  }
 }
 
 @layer components {
@@ -158,6 +173,13 @@ body {
   .note-card {
     @apply flex flex-col rounded-4xl border-4 border-white shadow-[0_5px_10px_rgba(0,0,0,0.08),0_15px_25px_-5px_rgba(25,28,33,0.2)] px-4 py-4 gap-5 w-full min-lg:max-w-[410px] justify-between;
   }
+  .cards {
+    @apply rounded-4xl border-4 border-white shadow-[0_5px_10px_rgba(0,0,0,0.08),0_15px_25px_-5px_rgba(25,28,33,0.2)] px-4 py-4 gap-5 w-full min-lg:max-w-[410px] bg-background;
+  }
+  .display-cards {
+    @apply rounded-4xl border-4 border-white shadow-[0_5px_10px_rgba(0,0,0,0.08),0_15px_25px_-5px_rgba(25,28,33,0.2)] px-4 py-4 gap-5 w-full min-lg:max-w-[610px] bg-white;
+  }
+
   .subject-badge {
     @apply border-white border text-white rounded-2xl text-sm px-2 py-1 capitalize;
   }
@@ -194,7 +216,9 @@ body {
   .note-limit {
     @apply items-center justify-center flex flex-col gap-4 w-full min-2xl:w-1/2 pt-20 text-center;
   }
-
+  .blob {
+    @apply rounded-2xl border-4 border-white shadow-[0_5px_10px_rgba(0,0,0,0.08),0_15px_25px_-5px_rgba(25,28,33,0.2)] sm:p-2;
+  }
   .note-section {
     @apply max-sm:w-full flex flex-col gap-4 justify-center items-center py-10 px-20 rounded-4xl border-4 border-white shadow-[0_5px_10px_rgba(0,0,0,0.08),0_15px_25px_-5px_rgba(25,28,33,0.2)];
   }
@@ -233,16 +257,35 @@ body {
     @apply pointer-events-none absolute top-0 left-0 right-0 h-40 max-sm:h-20 bg-gradient-to-b from-background via-background/90 to-transparent z-10 blur-md;
   }
   .transcript-fades {
-    @apply pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/90 to-transparent z-10;
+    @apply pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background via-background/90 to-transparent z-10;
   }
   .transcript-fadestop {
-    @apply pointer-events-none absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-white via-white/90 to-transparent z-10 blur-md;
+    @apply pointer-events-none absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-background via-background/90 to-transparent z-10 blur-md;
   }
   .left-shadow {
-    @apply pointer-events-none absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-background via-white/90 to-transparent z-10 blur-md;
+    @apply pointer-events-none absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-background via-background/90 to-transparent z-10 blur-md;
   }
   .right-shadow {
     @apply pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-background via-white/90 to-transparent z-10 blur-md;
+  }
+  .grid-frame {
+    @apply relative;
+
+    &::after {
+      content: "";
+      @apply absolute right-0 top-0 h-full w-px bg-gray-300;
+    }
+
+    &::before {
+      content: "";
+      @apply absolute top-0 left-0 h-full w-px bg-gray-300;
+    }
+  }
+  .grid-frame-bottom {
+    &::before {
+      content: "";
+      @apply absolute bottom-0 left-0 w-full h-px bg-gray-300;
+    }
   }
 }
 
@@ -253,6 +296,22 @@ body {
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  .grid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.05) 10px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 10px);
+    background-size: 100px 100px;
+    z-index: -1;
+    pointer-events: none;
   }
 }
 

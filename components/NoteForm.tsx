@@ -94,7 +94,6 @@ const NoteForm = () => {
   };
 
   const validateFile = (file: File): string | null => {
-
     if (file.type !== "application/pdf") {
       return "Please upload a PDF file only.";
     }
@@ -212,10 +211,10 @@ const NoteForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Neuranote Topic name</FormLabel>
+                  <FormLabel>Neuranote Topic</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter the Neuranote topic name"
+                      placeholder="Enter the Neuranote topic"
                       {...field}
                       className="input"
                     />
@@ -229,7 +228,7 @@ const NoteForm = () => {
               name="subject"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Neuranote Subject name</FormLabel>
+                  <FormLabel>Neuranote Subject</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
@@ -237,7 +236,7 @@ const NoteForm = () => {
                       defaultValue={field.value}
                     >
                       <SelectTrigger className="capitalize input">
-                        <SelectValue placeholder="Select the Neuranote subject name" />
+                        <SelectValue placeholder="Select the Neuranote subject" />
                       </SelectTrigger>
                       <SelectContent>
                         {subjects.map((subject) => (
@@ -432,22 +431,26 @@ const NoteForm = () => {
               </div>
             )}
           </div>
+          <div className="flex items-end justify-end gap-4">
+            <Button variant={"outline"} onClick={() => form.reset()}>
+              Clear
+            </Button>
+            <Button
+              type="submit"
+              className="cursor-pointer"
+              disabled={loadingSubmit || loadingExtract}
+            >
+              {loadingSubmit ? (
+                <div className="flex items-center space-x-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Building your Neuranote...</span>
+                </div>
+              ) : (
+                "Build your Neuranote"
+              )}
+            </Button>
+          </div>
         </div>
-
-        <Button
-          type="submit"
-          className="w-full cursor-pointer"
-          disabled={loadingSubmit || loadingExtract}
-        >
-          {loadingSubmit ? (
-            <div className="flex items-center space-x-2">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Building your Neuranote...</span>
-            </div>
-          ) : (
-            "Build your Neuranote"
-          )}
-        </Button>
       </form>
     </Form>
   );

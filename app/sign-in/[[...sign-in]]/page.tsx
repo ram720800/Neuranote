@@ -4,9 +4,9 @@ import Carousal from "@/components/Carousal";
 const Page = () => {
   return (
     <main>
-      <section className="home-section mt-10">
+      <section className="home-section flex items-center justify-center mt-10">
         <SignIn forceRedirectUrl="/launch" />
-        <Carousal />
+        {/* <Carousal /> */}
       </section>
     </main>
   );
